@@ -37,16 +37,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/dp_30"
-            android:layout_marginStart="@dimen/dp_25"
-            android:background="@drawable/chat_message"
+            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginStart="@dimen/dp_40"
+            android:background="@drawable/bg_msg_rounded_bot"
             android:paddingLeft="@dimen/padding_large"
             android:paddingTop="@dimen/padding_small"
             android:paddingRight="@dimen/padding_large"
             android:paddingBottom="@dimen/padding_small"
             android:text="sdvbksdjbknb"
             android:textColor="@color/black_light"
-            android:textSize="@dimen/txt_small" />
+            android:textSize="@dimen/txt_normal" />
 
     </RelativeLayout>
 
@@ -70,21 +70,32 @@
             android:src="@drawable/ic_user" />
 
         <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/iv_user"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginStart="@dimen/margin_nano"
+            android:textColor="@color/black_light"
+            android:text="@string/txt_me"
+            android:layout_marginTop="@dimen/margin_mini"/>
+
+        <TextView
             android:id="@+id/tv_user_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/dp_35"
             android:layout_marginEnd="@dimen/margin_nano"
             android:layout_toStartOf="@id/iv_user"
-            android:background="@drawable/chat2"
+            android:background="@drawable/bg_msg_rounded_user"
             android:paddingLeft="@dimen/padding_large"
             android:paddingTop="@dimen/padding_small"
             android:paddingRight="@dimen/padding_large"
             android:paddingBottom="@dimen/padding_small"
             android:text="vnknkenbkanblka"
             android:textColor="@color/color_white"
-            android:textSize="@dimen/txt_small" />
+            android:textSize="@dimen/txt_normal" />
 
     </RelativeLayout>
 

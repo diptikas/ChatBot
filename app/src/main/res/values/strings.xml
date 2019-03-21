@@ -4,4 +4,5 @@
     <string name="ask_something_text">Ask Something!!</string>
     <string name="err_network">No Internet Connection</string>
     <string name="err_empty_msg">Please enter valid message</string>
+    <string name="txt_me">Me</string>
 </resources>
