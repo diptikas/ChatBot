@@ -6,6 +6,10 @@ import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * Created by Diptika Shukla on 21/03/19.
+ */
+
 public interface ChatBotApi {
 
     @GET("/api/chat")

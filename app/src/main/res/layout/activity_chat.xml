@@ -44,9 +44,9 @@
     <LinearLayout
         android:id="@+id/layout_input"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp_60"
         android:layout_alignParentBottom="true"
-        android:background="@color/color_white"
+        android:background="@drawable/bg_rounded"
         android:orientation="horizontal"
         android:padding="@dimen/padding_nano">
 
@@ -60,6 +60,7 @@
             android:imeOptions="actionSend|flagNoEnterAction"
             android:inputType="textCapSentences|textMultiLine"
             android:maxLines="5"
+            android:layout_marginStart="@dimen/margin_small"
             android:paddingLeft="@dimen/padding_mini"
             android:paddingRight="@dimen/dp_25"
             android:scrollbars="vertical"

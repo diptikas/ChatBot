@@ -1,5 +1,9 @@
 package com.diptika.chatbot.network.response;
 
+/**
+ * Created by Diptika Shukla on 21/03/19.
+ */
+
 public class ChatMessageData {
     private String chatBotName;
     private int chatBotID;

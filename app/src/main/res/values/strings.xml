@@ -2,4 +2,6 @@
     <string name="app_name">ChatBot</string>
     <string name="empty_text">Start Conversation!</string>
     <string name="ask_something_text">Ask Something!!</string>
+    <string name="err_network">No Internet Connection</string>
+    <string name="err_empty_msg">Please enter valid message</string>
 </resources>

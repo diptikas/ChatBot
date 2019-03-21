@@ -1,8 +1,9 @@
-package com.diptika.chatbot.network.api;
+package com.diptika.chatbot.network.common;
 
 import android.support.annotation.NonNull;
 
 import com.diptika.chatbot.BuildConfig;
+import com.diptika.chatbot.network.api.ChatBotApi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -14,9 +15,13 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Created by Diptika Shukla on 21/03/19.
+ */
+
 public class RetrofitProvider {
     private static final int TIMEOUT = 180;
-    private static final String BASE_URL = "http://www.personalityforge.com";
+    private static final String BASE_URL = "https://www.personalityforge.com";
     private static RetrofitProvider sRetrofitInstance;
     private ChatBotApi chatBotApi;
 

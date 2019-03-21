@@ -4,6 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+/**
+ * Created by Diptika Shukla on 21/03/19.
+ */
+
 public final class NetworkUtils {
     /**
      * Method using checking internet connection availability

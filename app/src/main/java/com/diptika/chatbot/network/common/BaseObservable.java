@@ -1,4 +1,4 @@
-package com.diptika.chatbot.network.api;
+package com.diptika.chatbot.network.common;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -9,6 +9,10 @@ import io.reactivex.SingleTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
+
+/**
+ * Created by Diptika Shukla on 21/03/19.
+ */
 
 public class BaseObservable {
     public BaseObservable() {

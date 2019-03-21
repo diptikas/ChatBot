@@ -1,4 +1,4 @@
-package com.diptika.chatbot.ui;
+package com.diptika.chatbot.ui.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -15,6 +15,10 @@ import com.diptika.chatbot.network.response.ChatBotMsgResponse;
 import com.diptika.chatbot.network.response.ChatMessageData;
 
 import java.util.List;
+
+/**
+ * Created by Diptika Shukla on 21/03/19.
+ */
 
 public class ChatBotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -66,7 +70,7 @@ public class ChatBotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvUserMsg = itemView.findViewById(R.id.tv_user_msg);
             rlChatBotMsg = itemView.findViewById(R.id.layout_bot_msg);
             rlUserMsg = itemView.findViewById(R.id.layout_user_msg);
-            tvChatBotName=itemView.findViewById(R.id.tv_bot_name);
+            tvChatBotName = itemView.findViewById(R.id.tv_bot_name);
         }
 
         public void bindData(ChatBotMsgResponse chatBotMsgResponse) {
@@ -80,13 +84,21 @@ public class ChatBotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
 
+        /**
+         * Show chatbot view
+         * @param message
+         */
         private void showChatBotView(ChatMessageData message) {
             rlChatBotMsg.setVisibility(View.VISIBLE);
             rlUserMsg.setVisibility(View.GONE);
-            tvChatBotMsg.setText(!TextUtils.isEmpty(message.getMessage())?message.getMessage():"");
-            tvChatBotName.setText(!TextUtils.isEmpty(message.getChatBotName())?message.getChatBotName():"");
+            tvChatBotMsg.setText(!TextUtils.isEmpty(message.getMessage()) ? message.getMessage() : "");
+            tvChatBotName.setText(!TextUtils.isEmpty(message.getChatBotName()) ? message.getChatBotName() : "");
         }
 
+        /**
+         * Show User input view
+         * @param message
+         */
         private void showUserView(ChatMessageData message) {
             rlChatBotMsg.setVisibility(View.GONE);
             rlUserMsg.setVisibility(View.VISIBLE);
