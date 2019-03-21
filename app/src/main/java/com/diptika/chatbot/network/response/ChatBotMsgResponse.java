@@ -1,21 +1,23 @@
 package com.diptika.chatbot.network.response;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Diptika Shukla on 21/03/19.
  */
 
-public class ChatBotMsgResponse {
-    SenderType sender = SenderType.SENDER_CHATBOT;
+public class ChatBotMsgResponse extends RealmObject {
+    private Integer senderType = SenderType.SENDER_CHATBOT.getValue();
     private ChatMessageData message;
     private String errorMsg;
     private int success;
 
-    public SenderType getSender() {
-        return sender;
+    public Integer getSender() {
+        return senderType;
     }
 
-    public void setSender(SenderType sender) {
-        this.sender = sender;
+    public void setSender(Integer sender) {
+        this.senderType = sender;
     }
 
     public ChatMessageData getMessage() {
@@ -41,24 +43,5 @@ public class ChatBotMsgResponse {
     public void setSuccess(int success) {
         this.success = success;
     }
-
-    public enum SenderType {
-        SENDER_USER(0), SENDER_CHATBOT(1);
-
-        private final int value;
-
-        SenderType(int value) {
-            this.value = value;
-        }
-
-        public static SenderType getType(int val) {
-            return SenderType.values()[val];
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
-
 
 }

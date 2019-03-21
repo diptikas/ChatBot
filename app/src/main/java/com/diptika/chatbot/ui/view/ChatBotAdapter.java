@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.diptika.chatbot.R;
 import com.diptika.chatbot.network.response.ChatBotMsgResponse;
 import com.diptika.chatbot.network.response.ChatMessageData;
+import com.diptika.chatbot.network.response.SenderType;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class ChatBotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         return chatBotMsgResponseList.get(position).getSender().equals(
-                ChatBotMsgResponse.SenderType.SENDER_USER) ?
+                SenderType.SENDER_USER.getValue()) ?
                 ChatBotActivity.VIEW_USER_MSG : ChatBotActivity.VIEW_CHATBOT_MSG;
     }
 
@@ -74,7 +75,8 @@ public class ChatBotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         public void bindData(ChatBotMsgResponse chatBotMsgResponse) {
-            switch (chatBotMsgResponse.getSender()) {
+            SenderType senderType = SenderType.getType(chatBotMsgResponse.getSender());
+            switch (senderType) {
                 case SENDER_CHATBOT:
                     showChatBotView(chatBotMsgResponse.getMessage());
                     break;
@@ -86,23 +88,29 @@ public class ChatBotAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         /**
          * Show chatbot view
+         *
          * @param message
          */
         private void showChatBotView(ChatMessageData message) {
-            rlChatBotMsg.setVisibility(View.VISIBLE);
-            rlUserMsg.setVisibility(View.GONE);
-            tvChatBotMsg.setText(!TextUtils.isEmpty(message.getMessage()) ? message.getMessage() : "");
-            tvChatBotName.setText(!TextUtils.isEmpty(message.getChatBotName()) ? message.getChatBotName() : "");
+            if (message != null) {
+                rlChatBotMsg.setVisibility(View.VISIBLE);
+                rlUserMsg.setVisibility(View.GONE);
+                tvChatBotMsg.setText(!TextUtils.isEmpty(message.getMessage()) ? message.getMessage() : "");
+                tvChatBotName.setText(!TextUtils.isEmpty(message.getChatBotName()) ? message.getChatBotName() : "");
+            }
         }
 
         /**
          * Show User input view
+         *
          * @param message
          */
         private void showUserView(ChatMessageData message) {
-            rlChatBotMsg.setVisibility(View.GONE);
-            rlUserMsg.setVisibility(View.VISIBLE);
-            tvUserMsg.setText(message.getMessage());
+            if (message != null) {
+                rlChatBotMsg.setVisibility(View.GONE);
+                rlUserMsg.setVisibility(View.VISIBLE);
+                tvUserMsg.setText(message.getMessage());
+            }
         }
     }
 }

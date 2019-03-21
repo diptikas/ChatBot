@@ -3,6 +3,10 @@ package com.diptika.chatbot.ui;
 import com.diptika.chatbot.network.common.BasePresenter;
 import com.diptika.chatbot.network.response.ChatBotMsgResponse;
 import com.diptika.chatbot.network.response.ChatMessageData;
+import com.diptika.chatbot.network.response.SenderType;
+
+import java.util.List;
+
 /**
  * Created by Diptika Shukla on 21/03/19.
  */
@@ -24,6 +28,7 @@ public class ChatBotPresenter extends BasePresenter<ChatBotContract.View> implem
 
     /**
      * Call api for getting chatbot message
+     *
      * @param message
      */
     @Override
@@ -33,16 +38,20 @@ public class ChatBotPresenter extends BasePresenter<ChatBotContract.View> implem
         }
     }
 
-    /**
-     * Callback when all chatbot messages fetched
-     * @param chatBotMsgResponse
-     */
     @Override
-    public void onAllMessageRetrieved(ChatBotMsgResponse chatBotMsgResponse) {
+    public void getAllMessageFromDb() {
+        if (getViewContract() != null) {
+            chatBotInetractor.getAllMessageFromDb();
+        }
+    }
+
+    @Override
+    public void onAllMessageRetrieved(List<ChatBotMsgResponse> chatBotMsgResponse) {
         if (getViewContract() != null) {
             getViewContract().showAllMessage(chatBotMsgResponse);
         }
     }
+
 
     @Override
     public void onError(Throwable throwable) {
@@ -52,19 +61,20 @@ public class ChatBotPresenter extends BasePresenter<ChatBotContract.View> implem
     }
 
     /**
-     * Get User Input Message Body
+     * Store User Input Message into DB
+     *
      * @param msg
      * @return
      */
-    public static ChatBotMsgResponse getInputMessage(String msg){
-        ChatBotMsgResponse chatBotMsgResponse=new ChatBotMsgResponse();
-        chatBotMsgResponse.setSender(ChatBotMsgResponse.SenderType.SENDER_USER);
+    public void storeInputMessageDB(String msg) {
+        ChatBotMsgResponse chatBotMsgResponse = new ChatBotMsgResponse();
+        chatBotMsgResponse.setSender(SenderType.SENDER_USER.getValue());
         chatBotMsgResponse.setSuccess(1);
         chatBotMsgResponse.setErrorMsg("");
-        ChatMessageData chatMessageData=new ChatMessageData();
+        ChatMessageData chatMessageData = new ChatMessageData();
         chatMessageData.setMessage(msg);
         chatBotMsgResponse.setMessage(chatMessageData);
-        return chatBotMsgResponse;
+        chatBotInetractor.storeMessageToDB(chatBotMsgResponse);
 
     }
 

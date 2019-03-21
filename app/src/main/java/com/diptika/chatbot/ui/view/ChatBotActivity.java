@@ -8,11 +8,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.diptika.chatbot.R;
+import com.diptika.chatbot.database.RealmManager;
 import com.diptika.chatbot.network.response.ChatBotMsgResponse;
 import com.diptika.chatbot.ui.ChatBotContract;
 import com.diptika.chatbot.ui.ChatBotInetractor;
@@ -21,6 +21,7 @@ import com.diptika.chatbot.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Created by Diptika Shukla on 21/03/19.
  */
@@ -31,7 +32,6 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
 
     private RecyclerView rvChat;
     private RelativeLayout rlEmpty;
-    private LinearLayout llInput;
     private ImageView ivSend;
     private EditText etInputMsg;
     private ChatBotAdapter chatBotAdapter;
@@ -53,7 +53,6 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
     private void initView() {
         rvChat = findViewById(R.id.rv_chat);
         rlEmpty = findViewById(R.id.layout_empty);
-        llInput = findViewById(R.id.layout_input);
         ivSend = findViewById(R.id.iv_send);
         etInputMsg = findViewById(R.id.et_message);
 
@@ -65,6 +64,9 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
         rvChat.setAdapter(chatBotAdapter);
         linearLayoutManager.scrollToPosition(chatBotMsgResponseList.size() - 1);
 
+        //init realm.
+        RealmManager.getInstance().init(ChatBotActivity.this);
+
         //initializing presenter
         chatBotPresenter = new ChatBotPresenter(new ChatBotInetractor());
         chatBotPresenter.subscribeView(this);
@@ -72,8 +74,8 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
         //set listener
         ivSend.setOnClickListener(this);
 
-        //show empty layout
-        showEmptyLayout();
+        chatBotPresenter.getAllMessageFromDb();
+
     }
 
     @Override
@@ -93,11 +95,8 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
     private void sendInputMessage() {
         String inputMessage = etInputMsg.getText().toString();
         if (!TextUtils.isEmpty(inputMessage)) {
-            chatBotMsgResponseList.add(ChatBotPresenter.getInputMessage(inputMessage));
-            notifyDataSetChanged();
-            linearLayoutManager.scrollToPosition(chatBotMsgResponseList.size() - 1);
+            chatBotPresenter.storeInputMessageDB(inputMessage);
             etInputMsg.setText("");
-            showEmptyLayout();
             fetchChatBotMsg(inputMessage);
         } else {
             Toast.makeText(this, getString(R.string.err_empty_msg), Toast.LENGTH_SHORT).show();
@@ -107,6 +106,7 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * fetch chatbot message from chatbot server
+     *
      * @param inputMessage
      */
     private void fetchChatBotMsg(String inputMessage) {
@@ -128,24 +128,25 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
         Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 
+
     /**
      * Add all chatbot response message in recyclerview
+     *
      * @param chatBotMsgResponse
      */
     @Override
-    public void showAllMessage(ChatBotMsgResponse chatBotMsgResponse) {
-        showEmptyLayout();
-        chatBotMsgResponseList.add(chatBotMsgResponse);
-        notifyDataSetChanged();
-        linearLayoutManager.scrollToPosition(chatBotMsgResponseList.size() - 1);
+    public void showAllMessage(List<ChatBotMsgResponse> chatBotMsgResponse) {
+        if (chatBotMsgResponse != null && chatBotMsgResponse.size() > 0) {
+            rlEmpty.setVisibility(View.GONE);
+            chatBotMsgResponseList.clear();
+            chatBotMsgResponseList.addAll(chatBotMsgResponse);
+            notifyDataSetChanged();
+            linearLayoutManager.scrollToPosition(chatBotMsgResponseList.size() - 1);
+        } else {
+            rlEmpty.setVisibility(View.VISIBLE);
+        }
     }
 
-    /**
-     * show empty layout if no msg is available
-     */
-    private void showEmptyLayout(){
-        rlEmpty.setVisibility(chatBotMsgResponseList.size() > 0 ? View.GONE : View.VISIBLE);
-    }
 
     @Override
     protected void onDestroy() {

@@ -1,10 +1,12 @@
 package com.diptika.chatbot.network.response;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Diptika Shukla on 21/03/19.
  */
 
-public class ChatMessageData {
+public class ChatMessageData extends RealmObject {
     private String chatBotName;
     private int chatBotID;
     private String message;
