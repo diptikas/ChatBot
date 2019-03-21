@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--common padding dimens-->
+    <dimen name="padding_nano">4dp</dimen>
+    <dimen name="padding_micro">6dp</dimen>
+    <dimen name="padding_mini">8dp</dimen>
+    <dimen name="padding_small">12dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="padding_large">20dp</dimen>
+
+    <!--common margin dimens-->
+    <dimen name="margin_nano">5dp</dimen>
+    <dimen name="margin_micro">6dp</dimen>
+    <dimen name="margin_mini">10dp</dimen>
+    <dimen name="margin_small">12dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="margin_large">20dp</dimen>
+
+    <!--common text dimens-->
+    <dimen name="txt_small">12sp</dimen>
+    <dimen name="txt_normal">14sp</dimen>
+    <dimen name="txt_large">16sp</dimen>
+
+
+    <!--common dimens-->
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_15">15dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_25">25dp</dimen>
+    <dimen name="dp_45">45dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_40">40</dimen>
+    <dimen name="dp_35">35dp</dimen>
+    <dimen name="dp_30">30dp</dimen>
+
+</resources>

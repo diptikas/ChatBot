@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_light_grey"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_normal">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_input"/>
+
+    <RelativeLayout
+        android:id="@+id/layout_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/layout_input"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_bot_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/ic_launcher_background"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_bot_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/padding_mini"
+            android:text="@string/empty_text"
+            android:textColor="@color/black_light" />
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/layout_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_white"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_nano">
+
+        <EditText
+            android:id="@+id/et_message"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45"
+            android:layout_weight="1"
+            android:background="@color/color_transparent"
+            android:hint="@string/ask_something_text"
+            android:imeOptions="actionSend|flagNoEnterAction"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="5"
+            android:paddingLeft="@dimen/padding_mini"
+            android:paddingRight="@dimen/dp_25"
+            android:scrollbars="vertical"
+            android:textSize="@dimen/txt_large" />
+
+
+        <ImageView
+            android:id="@+id/iv_send"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/ic_send"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

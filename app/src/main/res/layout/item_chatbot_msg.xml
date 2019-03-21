@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/layout_bot_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_nano">
+
+
+        <ImageView
+            android:id="@+id/iv_bot"
+            android:layout_width="@dimen/dp_45"
+            android:layout_height="@dimen/dp_45"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/margin_nano"
+            android:src="@drawable/ic_bot" />
+
+        <TextView
+            android:id="@+id/tv_bot_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/iv_bot"
+            android:layout_marginStart="@dimen/margin_nano"
+            android:textColor="@color/black_light"
+            tool:text="@string/app_name"
+            android:layout_marginTop="@dimen/margin_mini"/>
+
+
+        <TextView
+            android:id="@+id/tv_bot_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginStart="@dimen/dp_25"
+            android:background="@drawable/chat_message"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingTop="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_small"
+            android:text="sdvbksdjbknb"
+            android:textColor="@color/black_light"
+            android:textSize="@dimen/txt_small" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/layout_user_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_bot_msg"
+        android:layout_marginTop="@dimen/margin_nano"
+        android:layout_marginBottom="@dimen/margin_nano">
+
+        <ImageView
+            android:id="@+id/iv_user"
+            android:layout_width="@dimen/dp_45"
+            android:layout_height="@dimen/dp_45"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="@dimen/margin_nano"
+            android:src="@drawable/ic_user" />
+
+        <TextView
+            android:id="@+id/tv_user_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_nano"
+            android:layout_toStartOf="@id/iv_user"
+            android:background="@drawable/chat2"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingTop="@dimen/padding_small"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_small"
+            android:text="vnknkenbkanblka"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/txt_small" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
