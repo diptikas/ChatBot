@@ -1,5 +1,6 @@
 package com.diptika.chatbot.ui.view;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import com.diptika.chatbot.network.response.ChatBotMsgResponse;
 import com.diptika.chatbot.ui.ChatBotContract;
 import com.diptika.chatbot.ui.ChatBotInetractor;
 import com.diptika.chatbot.ui.ChatBotPresenter;
+import com.diptika.chatbot.utils.NetworkStateReceiver;
 import com.diptika.chatbot.utils.NetworkUtils;
 
 import java.util.ArrayList;
@@ -26,7 +28,8 @@ import java.util.List;
  * Created by Diptika Shukla on 21/03/19.
  */
 
-public class ChatBotActivity extends AppCompatActivity implements View.OnClickListener, ChatBotContract.View {
+public class ChatBotActivity extends AppCompatActivity implements View.OnClickListener, ChatBotContract.View,
+        NetworkStateReceiver.NetworkStateReceiverListener {
     public static final int VIEW_USER_MSG = 0;
     public static final int VIEW_CHATBOT_MSG = 1;
 
@@ -38,7 +41,7 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
     private List<ChatBotMsgResponse> chatBotMsgResponseList;
     private ChatBotPresenter chatBotPresenter;
     private LinearLayoutManager linearLayoutManager;
-
+    private NetworkStateReceiver networkStateReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +60,9 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
         etInputMsg = findViewById(R.id.et_message);
 
         // set up adapter
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rvChat.setLayoutManager(linearLayoutManager);
-        chatBotMsgResponseList = new ArrayList<>();
-        chatBotAdapter = new ChatBotAdapter(this, chatBotMsgResponseList);
-        rvChat.setAdapter(chatBotAdapter);
-        linearLayoutManager.scrollToPosition(chatBotMsgResponseList.size() - 1);
-
+        setUpAdapter();
+        //init network state receiver
+        initReceiver();
         //init realm.
         RealmManager.getInstance().init(ChatBotActivity.this);
 
@@ -73,9 +72,24 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
 
         //set listener
         ivSend.setOnClickListener(this);
-
+        //get all stored message from db
         chatBotPresenter.getAllMessageFromDb();
 
+    }
+
+    private void initReceiver() {
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    private void setUpAdapter() {
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvChat.setLayoutManager(linearLayoutManager);
+        chatBotMsgResponseList = new ArrayList<>();
+        chatBotAdapter = new ChatBotAdapter(this, chatBotMsgResponseList);
+        rvChat.setAdapter(chatBotAdapter);
+        linearLayoutManager.scrollToPosition(chatBotMsgResponseList.size() - 1);
     }
 
     @Override
@@ -95,13 +109,13 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
     private void sendInputMessage() {
         String inputMessage = etInputMsg.getText().toString();
         if (!TextUtils.isEmpty(inputMessage)) {
-            chatBotPresenter.storeInputMessageDB(inputMessage);
-            etInputMsg.setText("");
             fetchChatBotMsg(inputMessage);
+            etInputMsg.setText("");
         } else {
             Toast.makeText(this, getString(R.string.err_empty_msg), Toast.LENGTH_SHORT).show();
 
         }
+
     }
 
     /**
@@ -111,9 +125,11 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
      */
     private void fetchChatBotMsg(String inputMessage) {
         if (NetworkUtils.isInternetAvailable(this)) {
-            chatBotPresenter.getAllMessage(inputMessage);
+            chatBotPresenter.storeInputMessageDB(inputMessage, true);
+            chatBotPresenter.getChatBotResponseMsg(inputMessage);
         } else {
             Toast.makeText(this, getString(R.string.err_network), Toast.LENGTH_SHORT).show();
+            chatBotPresenter.storeInputMessageDB(inputMessage, false);
         }
     }
 
@@ -147,12 +163,23 @@ public class ChatBotActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * Callback when network comes back
+     */
+    @Override
+    public void networkAvailable() {
+        chatBotPresenter.getAllUndeliveredMessage();
+    }
 
     @Override
     protected void onDestroy() {
         if (chatBotPresenter.wasSubscribed(this)) {
             chatBotPresenter.unsubscribeView(this);
         }
+        networkStateReceiver.removeListener(this);
+        unregisterReceiver(networkStateReceiver);
         super.onDestroy();
     }
+
+
 }

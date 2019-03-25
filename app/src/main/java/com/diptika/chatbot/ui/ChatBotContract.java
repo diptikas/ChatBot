@@ -17,22 +17,29 @@ public class ChatBotContract {
         void onError(String errMsg);
 
         void showAllMessage(List<ChatBotMsgResponse> chatBotMsgResponse);
+
     }
 
     public interface Presenter extends BasePresenterContract {
-        void getAllMessage(String message);
+        void getChatBotResponseMsg(String message);
 
         void getAllMessageFromDb();
 
+        void getAllUndeliveredMessage();
+
         void onAllMessageRetrieved(List<ChatBotMsgResponse> chatBotMsgResponse);
+
+        void onAllUndeliveredMessageFetched(List<ChatBotMsgResponse> undeliveredMsgList);
     }
 
     public interface ApiContract {
-        void getAllMessage(String message);
+        void getChatBotResponseMsg(String message);
 
         void getAllMessageFromDb();
 
         void storeMessageToDB(ChatBotMsgResponse chatBotMsgResponse);
+
+        void getAllUndeliveredMessage();
 
     }
 }

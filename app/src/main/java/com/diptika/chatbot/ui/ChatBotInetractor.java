@@ -48,6 +48,7 @@ public class ChatBotInetractor extends BaseInteractor implements ChatBotContract
      */
     @Override
     public void onSuccess(ChatBotMsgResponse chatBotMsgResponse) {
+        chatBotMsgResponse.setMessageDelivered(true);
         storeMessageToDB(chatBotMsgResponse);
     }
 
@@ -69,13 +70,12 @@ public class ChatBotInetractor extends BaseInteractor implements ChatBotContract
      * @param message
      */
     @Override
-    public void getAllMessage(String message) {
+    public void getChatBotResponseMsg(String message) {
         restApiObservables.getChatBotMessage(message).subscribe(getSingleSubscriber(this));
     }
 
     /**
      * Fetch All Chatbot Message from realm db
-     *
      */
 
     @Override
@@ -93,13 +93,36 @@ public class ChatBotInetractor extends BaseInteractor implements ChatBotContract
      */
 
     @Override
-    public void storeMessageToDB(final ChatBotMsgResponse chatBotMsgResponse) {
+    public void storeMessageToDB(ChatBotMsgResponse chatBotMsgResponse) {
         try (Realm realmInstance = RealmManager.getInstance().getRealm()) {
             realmInstance.executeTransactionAsync((Realm realm) -> {
                         realm.insertOrUpdate(chatBotMsgResponse);
                     }
             );
         }
+
+        getAllMessageFromDb();
+    }
+
+    @Override
+    public void getAllUndeliveredMessage() {
+        List<ChatBotMsgResponse> undeliveredMsgList = new ArrayList<>();
+        Realm realmInstance = RealmManager.getInstance().getRealm();
+        chatMessageDataRealmResults = realmInstance.where(ChatBotMsgResponse.class)
+                .findAll();
+        realmInstance.beginTransaction();
+        for (int i = 0; i < chatMessageDataRealmResults.size(); i++) {
+            if (!chatMessageDataRealmResults.get(i).isMessageDelivered()) {
+                undeliveredMsgList.add(chatMessageDataRealmResults.get(i));
+                chatMessageDataRealmResults.get(i).setMessageDelivered(true);
+            }
+        }
+        realmInstance.commitTransaction();
+
+        if (getPresenter() != null) {
+            getPresenter().onAllUndeliveredMessageFetched(undeliveredMsgList);
+        }
+
     }
 
     private ChatBotContract.Presenter getPresenter() {

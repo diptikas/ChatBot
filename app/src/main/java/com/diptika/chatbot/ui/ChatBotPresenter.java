@@ -32,9 +32,9 @@ public class ChatBotPresenter extends BasePresenter<ChatBotContract.View> implem
      * @param message
      */
     @Override
-    public void getAllMessage(String message) {
+    public void getChatBotResponseMsg(String message) {
         if (getViewContract() != null) {
-            chatBotInetractor.getAllMessage(message);
+            chatBotInetractor.getChatBotResponseMsg(message);
         }
     }
 
@@ -46,9 +46,23 @@ public class ChatBotPresenter extends BasePresenter<ChatBotContract.View> implem
     }
 
     @Override
+    public void getAllUndeliveredMessage() {
+        if (getViewContract() != null) {
+            chatBotInetractor.getAllUndeliveredMessage();
+        }
+    }
+
+    @Override
     public void onAllMessageRetrieved(List<ChatBotMsgResponse> chatBotMsgResponse) {
         if (getViewContract() != null) {
             getViewContract().showAllMessage(chatBotMsgResponse);
+        }
+    }
+
+    @Override
+    public void onAllUndeliveredMessageFetched(List<ChatBotMsgResponse> undeliveredMsgList) {
+        for (ChatBotMsgResponse chatMsg:undeliveredMsgList  ) {
+            getChatBotResponseMsg(chatMsg.getMessage().getMessage());
         }
     }
 
@@ -66,16 +80,16 @@ public class ChatBotPresenter extends BasePresenter<ChatBotContract.View> implem
      * @param msg
      * @return
      */
-    public void storeInputMessageDB(String msg) {
+    public void storeInputMessageDB(String msg, boolean networkAvailable) {
         ChatBotMsgResponse chatBotMsgResponse = new ChatBotMsgResponse();
         chatBotMsgResponse.setSender(SenderType.SENDER_USER.getValue());
         chatBotMsgResponse.setSuccess(1);
         chatBotMsgResponse.setErrorMsg("");
+        chatBotMsgResponse.setMessageDelivered(networkAvailable);
         ChatMessageData chatMessageData = new ChatMessageData();
         chatMessageData.setMessage(msg);
         chatBotMsgResponse.setMessage(chatMessageData);
         chatBotInetractor.storeMessageToDB(chatBotMsgResponse);
-
     }
 
 }

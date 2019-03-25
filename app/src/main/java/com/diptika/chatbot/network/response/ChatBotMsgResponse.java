@@ -11,6 +11,15 @@ public class ChatBotMsgResponse extends RealmObject {
     private ChatMessageData message;
     private String errorMsg;
     private int success;
+    private boolean messageDelivered;
+
+    public boolean isMessageDelivered() {
+        return messageDelivered;
+    }
+
+    public void setMessageDelivered(boolean messageDelivered) {
+        this.messageDelivered = messageDelivered;
+    }
 
     public Integer getSender() {
         return senderType;
